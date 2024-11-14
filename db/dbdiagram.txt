@@ -1,0 +1,84 @@
+enum role_user {
+  superadmin
+  customer
+} 
+
+Table user {
+  id integer [primary key]
+  name varchar
+  email varchar
+  password varchar
+  type role_user
+}
+
+
+Table brands {
+  id integer [primary key]
+  name varchar
+  logo varchar
+}
+
+
+Table categories {
+  id integer [primary key]
+  name varchar
+} 
+
+Table locations {
+  id integer [primary key]
+  name varchar
+} 
+
+enum stock_product {
+  ready
+  preorder
+} 
+
+Table products {
+  id integer [primary key]
+  brand_id integer [ref: > brands.id]
+  category_id integer [ref: > categories.id]
+  location_id integer [ref: > locations.id]
+  name varchar
+  description varchar
+  price integer
+  stock stock_product
+  images varchar
+}
+
+
+enum status_orders {
+  pending
+  success
+  failed
+}
+
+
+Table orders {
+  id integer [primary key]
+  code varchar
+  user_id integer [ref: > user.id]
+  total integer
+  status status_orders
+}
+
+
+Table orders_detail {
+  id integer [primary key]
+  order_id integer [ref: > orders.id]
+  name varchar
+  phone varchar
+  address varchar
+  city varchar
+  postal_code varchar
+  notes varchar
+}
+
+
+Table orders_products {
+  id integer [primary key]
+  product_id integer [ref: > products.id]
+  order_id integer [ref: > orders.id]
+  subtotal integer
+  quantity integer
+}
